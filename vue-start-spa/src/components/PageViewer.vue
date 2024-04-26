@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-      <h1>{{pageToDisplay.pageTitle}}</h1>
+      <h1 class="emphasize">{{pageToDisplay.pageTitle}}</h1>
       <p>{{pageToDisplay.content}}</p>
     </div>
 </template>
@@ -9,3 +9,8 @@ export default {
     props: ["pageToDisplay"],
 }
 </script>
+<style scoped>
+.emphasize {
+  color: blue;
+}
+</style>
