@@ -6,7 +6,17 @@
 </template>
 <script>
 export default {
-    props: ["pageToDisplay"],
+    // props: ["pageToDisplay"],
+    props: { pageToDisplay: {
+    type: Object, // Specifies the expected type
+    default(rawProps) { //giving default values it the object is null
+      return {
+        pageTitle : '',
+        content : ''
+      }
+    } 
+  }
+},
 }
 </script>
 <style scoped>
