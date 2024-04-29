@@ -1,18 +1,24 @@
 <template>
-    <nav :class="[`navbar-${theme}`,`bg-${theme}`,'navbar','navbar-expand-lg']">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="#">My Vue</a>
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li v-for="(page,index) in pages" class="nav-item" :key="index">
-            <navbar-link
+  <nav
+    :class="[`navbar-${theme}`, `bg-${theme}`, 'navbar', 'navbar-expand-lg']"
+  >
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">My Vue</a>
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li
+          v-for="(page, index) in publishedPages"
+          class="nav-item"
+          :key="index"
+        >
+          <navbar-link
             :page="page"
             :isActive="activePage === index"
             @click.prevent="navLinkClick(index)"
-            >
-            </navbar-link>
-            <!-- props are read only you cant change the values like activePage=index
+          >
+          </navbar-link>
+          <!-- props are read only you cant change the values like activePage=index
              :class= class of bootstrap : condition -->
-             <!-- <a
+          <!-- <a
               class="nav-link"
               :class="{active: activePage==index}"
               aria-current="page"
@@ -22,50 +28,54 @@
             >
               {{page.link.text}}</a
             > -->
-          </li>
-        </ul>
-        <form action="" class="d-flex">
-          <button class="btn btn-primary" @click.prevent="changeTheme()">
-            Toggle
-          </button>
-        </form>
-      </div>
-    </nav>
+        </li>
+      </ul>
+      <form action="" class="d-flex">
+        <button class="btn btn-primary" @click.prevent="changeTheme()">
+          Toggle
+        </button>
+      </form>
+    </div>
+  </nav>
 </template>
 <script>
-import NavbarLink from './NavbarLink.vue';
+import NavbarLink from "./NavbarLink.vue";
 export default {
-  components :{
-    NavbarLink
+  components: {
+    NavbarLink,
   },
-    props: ["pages", "activePage", "navLinkClick"],
-      data() {
-        return {
-          theme: "light",
-        };
-      },
-      created(){
-        this.getThemeSettings();
-      },
-      methods: {
-        changeTheme() {
-          let theme = "light";
-          if (this.theme == "light") {
-            theme = "dark";
-          }
-          this.theme = theme;
-          this.storeThemeSettings();
-        },
-        storeThemeSettings(){
-          localStorage.setItem('theme',this.theme);
-        },
-        getThemeSettings(){
-          let theme  = localStorage.getItem('theme');
-          if (theme) {
-            this.theme = theme;
-          }
-        }
-      },
-    
-}
+  props: ["pages", "activePage", "navLinkClick"],
+  data() {
+    return {
+      theme: "light",
+    };
+  },
+  created() {
+    this.getThemeSettings();
+  },
+  computed: {
+    publishedPages() {
+      return this.pages.filter((p) => p.published);
+    },
+  },
+  methods: {
+    changeTheme() {
+      let theme = "light";
+      if (this.theme == "light") {
+        theme = "dark";
+      }
+      this.theme = theme;
+      this.storeThemeSettings();
+    },
+    storeThemeSettings() {
+      localStorage.setItem("theme", this.theme);
+    },
+    getThemeSettings() {
+      let theme = localStorage.getItem("theme");
+      if (theme) {
+        this.theme = theme;
+      }
+    },
+  },
+};
 </script>
