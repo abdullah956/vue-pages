@@ -14,7 +14,7 @@
   :page-to-display="pages[activePage]"
   ></page-viewer> -->
   <!-- v-if="pages.length > 0"  another straight forward method-->
-  <create-page :page-created="pageCreated"></create-page>
+  <create-page @page-created="pageCreated"> </create-page>
 </template>
 <script>
 import Navbar from "./components/Navbar.vue";
@@ -52,4 +52,5 @@ export default {
     },
   },
 };
+/// @ is for event listner will have - dash in words the event itself will have name camel case
 </script>

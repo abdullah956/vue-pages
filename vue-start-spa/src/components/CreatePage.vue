@@ -53,7 +53,22 @@
 
 <script>
 export default {
-  props: ["pageCreated"],
+  // you dont have to validate your events nor declare them this whole emit event validation is optional
+  emits: {
+    pageCreated({ pageTitle, content, link }) {
+      if (!pageTitle) {
+        return false;
+      }
+      if (!content) {
+        return false;
+      }
+      if (!link || !link.text || !link.url) {
+        return false;
+      }
+      return true;
+    },
+  },
+  // props: ["pageCreated"],
   //computed properties simply return a value using the existing data
   computed: {
     isFormValid() {
@@ -77,7 +92,7 @@ export default {
         alert("please fill out the form !");
         return;
       }
-      this.pageCreated({
+      this.$emit("pageCreated", {
         pageTitle: this.pageTitle,
         content: this.content,
         link: {
@@ -86,6 +101,7 @@ export default {
         },
         published: this.published,
       });
+      // this.pageCreated({});
       this.pageTitle = "";
       this.content = "";
       this.linkText = "";
