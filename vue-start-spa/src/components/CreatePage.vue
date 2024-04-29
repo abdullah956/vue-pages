@@ -54,6 +54,7 @@
 <script>
 export default {
   props: ["pageCreated"],
+  //computed properties simply return a value using the existing data
   computed: {
     isFormValid() {
       return (
@@ -90,6 +91,14 @@ export default {
       this.linkText = "";
       this.linkUrl = "";
       this.published = true;
+    },
+  },
+  //watcher watches for a property to change
+  watch: {
+    pageTitle(newTitle, oldTitle) {
+      if (this.linkText === oldTitle) {
+        this.linkText = newTitle;
+      }
     },
   },
 };
