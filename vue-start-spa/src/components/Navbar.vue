@@ -5,20 +5,26 @@
     <div class="container-fluid">
       <a class="navbar-brand" href="#">My Vue</a>
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li
+        <navbar-link
           v-for="(page, index) in publishedPages"
           class="nav-item"
           :key="index"
+          :page="page"
+          :index="index"
         >
-          <navbar-link
-            :page="page"
-            :isActive="activePage === index"
-            @click.prevent="navLinkClick(index)"
-          >
-          </navbar-link>
-          <!-- props are read only you cant change the values like activePage=index
+        </navbar-link>
+        <li>
+          <router-link
+            active-class="active emphasize"
+            class="nav-link"
+            aria-current="page"
+            to="/pages/create"
+            >Create Page
+          </router-link>
+        </li>
+        <!-- props are read only you cant change the values like activePage=index
              :class= class of bootstrap : condition -->
-          <!-- <a
+        <!-- <a
               class="nav-link"
               :class="{active: activePage==index}"
               aria-current="page"
@@ -28,7 +34,6 @@
             >
               {{page.link.text}}</a
             > -->
-        </li>
       </ul>
       <form action="" class="d-flex">
         <button class="btn btn-primary" @click.prevent="changeTheme()">
@@ -44,14 +49,17 @@ export default {
   components: {
     NavbarLink,
   },
-  props: ["pages", "activePage", "navLinkClick"],
+  //props: ["pages"],
   data() {
     return {
+      pages: [],
       theme: "light",
     };
   },
   created() {
     this.getThemeSettings();
+
+    this.pages = this.$pages.getAllPages();
   },
   computed: {
     publishedPages() {
@@ -79,3 +87,8 @@ export default {
   },
 };
 </script>
+<style scoped>
+.emphasize {
+  text-decoration: underline !important;
+}
+</style>
