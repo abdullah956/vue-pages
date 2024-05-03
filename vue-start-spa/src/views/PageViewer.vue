@@ -20,8 +20,10 @@ export default {
   //   },
   // },
   props: ["index"],
+  inject: ["$pages"],
+  // inject becomes the this property inside the component
   created() {
-    console.log("on create");
+    //console.log("on create");
     this.page = this.$pages.getSinglePage(this.index);
     //when use navigate in using the same conponent if causes some problems this the one way to do this other on is the traditional props way
     // this.$watch(

@@ -18,8 +18,8 @@
             active-class="active emphasize"
             class="nav-link"
             aria-current="page"
-            to="/pages/create"
-            >Create Page
+            to="/pages"
+            >Pages
           </router-link>
         </li>
         <!-- props are read only you cant change the values like activePage=index
@@ -49,6 +49,7 @@ export default {
   components: {
     NavbarLink,
   },
+  inject: ["$pages"],
   //props: ["pages"],
   data() {
     return {
@@ -58,7 +59,7 @@ export default {
   },
   created() {
     this.getThemeSettings();
-
+    //console.log("second");
     this.pages = this.$pages.getAllPages();
   },
   computed: {
