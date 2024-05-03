@@ -40,8 +40,6 @@ export default {
   },
   watch: {
     index(newIndex, oldIndex) {
-      console.log(newIndex);
-      console.log(oldIndex);
       this.page = this.$pages.getSinglePage(newIndex);
     },
   },

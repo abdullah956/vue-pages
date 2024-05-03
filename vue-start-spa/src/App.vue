@@ -39,9 +39,9 @@ export default {
     //   let data = await res.json();
     //   this.pages = data;
     // },
-    pageCreated(pageObj) {
-      this.pages.push(pageObj);
-    },
+    // pageCreated(pageObj) {
+    //   this.pages.push(pageObj);
+    // },
     // navLinkClick(index) {
     //   this.activePage = index;
     // },

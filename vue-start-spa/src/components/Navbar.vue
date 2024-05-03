@@ -49,7 +49,7 @@ export default {
   components: {
     NavbarLink,
   },
-  inject: ["$pages"],
+  inject: ["$pages", "$bus"],
   //props: ["pages"],
   data() {
     return {
@@ -61,6 +61,16 @@ export default {
     this.getThemeSettings();
     //console.log("second");
     this.pages = this.$pages.getAllPages();
+    this.$bus.$on("page-updated", () => {
+      this.pages = [...this.$pages.getAllPages()];
+      // When you directly assign this.pages = this.$pages.getAllPages(), Vue might not detect the change because it's still referencing the same array object in memory. By spreading the array into a new array with [...this.$pages.getAllPages()], you're effectively creating a new array object, which Vue recognizes as a change and re-renders the component accordingly.
+    });
+    this.$bus.$on("page-created", () => {
+      this.pages = [...this.$pages.getAllPages()];
+    });
+    this.$bus.$on("page-deleted", () => {
+      this.pages = [...this.$pages.getAllPages()];
+    });
   },
   computed: {
     publishedPages() {

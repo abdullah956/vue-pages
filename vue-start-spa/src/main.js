@@ -7,8 +7,9 @@ import $pages from './data';
 
 const app = createApp(App);
 app.use(router);
-app.config.globalProperties.$bus = $bus;
+// app.config.globalProperties.$bus = $bus;
 // app.config.globalProperties.$pages = $pages;
 //console.log("fist")
+app.provide('$bus',$bus);
 app.provide('$pages',$pages);
 app.mount('#app');

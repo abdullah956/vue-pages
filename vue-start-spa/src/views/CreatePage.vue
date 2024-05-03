@@ -23,10 +23,6 @@
           <label for="" class="form-label"> Link Text</label>
           <input type="text" class="form-control" v-model="linkText" />
         </div>
-        <div class="mb-3">
-          <label for="" class="form-label"> Link URL</label>
-          <input type="text" class="form-control" v-model="linkUrl" />
-        </div>
         <div class="row mb-3">
           <div class="form-check">
             <input
@@ -50,74 +46,40 @@
     </div>
   </form>
 </template>
-
-<script>
-export default {
-  // you dont have to validate your events nor declare them this whole emit event validation is optional
-  emits: {
-    pageCreated({ pageTitle, content, link }) {
-      if (!pageTitle) {
-        return false;
-      }
-      if (!content) {
-        return false;
-      }
-      if (!link || !link.text || !link.url) {
-        return false;
-      }
-      return true;
+<script setup>
+import { inject, ref, computed, watch } from "vue";
+import { useRouter } from "vue-router";
+const bus = inject("$bus");
+const pages = inject("$pages");
+const router = useRouter();
+let pageTitle = ref("");
+let content = ref("");
+let linkText = ref("");
+let published = ref(true);
+function submitForm() {
+  if (!pageTitle.value || !content.value || !linkText.value) {
+    alert("please fill out the form !");
+    return;
+  }
+  let newPage = {
+    pageTitle: pageTitle.value,
+    content: content.value,
+    link: {
+      text: linkText.value,
     },
-  },
-  // props: ["pageCreated"],
-  //computed properties simply return a value using the existing data
-  computed: {
-    isFormValid() {
-      return (
-        !this.pageTitle || !this.content || !this.linkText || !this.linkUrl
-      );
-    },
-  },
-  data() {
-    return {
-      pageTitle: "",
-      content: "",
-      linkText: "",
-      linkUrl: "",
-      published: true,
-    };
-  },
-  methods: {
-    submitForm() {
-      if (!this.pageTitle || !this.content || !this.linkText || !this.linkUrl) {
-        alert("please fill out the form !");
-        return;
-      }
-      this.$emit("pageCreated", {
-        pageTitle: this.pageTitle,
-        content: this.content,
-        link: {
-          text: this.linkText,
-          url: this.linkUrl,
-        },
-        published: this.published,
-      });
-      // this.pageCreated({});
-      this.pageTitle = "";
-      this.content = "";
-      this.linkText = "";
-      this.linkUrl = "";
-      this.published = true;
-    },
-  },
-  //watcher watches for a property to change
-  watch: {
-    pageTitle(newTitle, oldTitle) {
-      if (this.linkText === oldTitle) {
-        this.linkText = newTitle;
-      }
-    },
-  },
-};
-// :value="pageTitle"
-// @input="(e) => pageTitle =  e.target.value" v-model alternative too make 2 way binding
+    published: published.value,
+  };
+  pages.addPage(newPage);
+  bus.$emit("page-created", newPage);
+  router.push({ path: "/pages" });
+}
+const isFormValid = computed(
+  () => !pageTitle.value || !content.value || !linkText.value
+);
+watch(pageTitle, (newTitle, oldTitle) => {
+  if (linkText.value === oldTitle) {
+    linkText.value = newTitle;
+  }
+});
+// watcher must be reactive meaning it must be ref or reactive
 </script>
